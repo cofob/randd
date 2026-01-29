@@ -113,11 +113,11 @@ jobs:
 
       - name: Strip binary
         run: |
-          if [ "${{ runner.os }}" = "macOS" ]; then
+          # Only strip native builds (where use_cross is false)
+          if [ "${{ matrix.use_cross }}" = "true" ]; then
+            echo "Skipping strip for cross-compiled target ${{ matrix.target }}"
+          elif [ "${{ runner.os }}" = "macOS" ]; then
             strip -x target/${{ matrix.target }}/release/randd
-          elif [ "${{ matrix.target }}" = "x86_64-unknown-linux-musl" ] || [ "${{ matrix.target }}" = "aarch64-unknown-linux-musl" ]; then
-            # musl targets might need different stripping
-            strip target/${{ matrix.target }}/release/randd || true
           else
             strip target/${{ matrix.target }}/release/randd
           fi
