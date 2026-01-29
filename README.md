@@ -222,7 +222,6 @@ The CI pipeline builds binaries for the following platforms:
 | Linux | armv7 (ARM 32-bit) | `randd-armv7-unknown-linux-gnueabihf.tar.gz` |
 | Linux | x86_64-musl | `randd-x86_64-unknown-linux-musl.tar.gz` |
 | Linux | aarch64-musl | `randd-aarch64-unknown-linux-musl.tar.gz` |
-| macOS | x86_64 (Intel) | `randd-x86_64-apple-darwin.tar.gz` |
 | macOS | aarch64 (Apple Silicon) | `randd-aarch64-apple-darwin.tar.gz` |
 | Windows | x86_64 (AMD64) | `randd-x86_64-pc-windows-msvc.zip` |
 
