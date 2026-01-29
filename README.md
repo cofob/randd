@@ -190,6 +190,105 @@ cargo build --release
 ./target/release/randd --help
 ```
 
+### Cross-Compilation
+
+To build for different architectures, you can use Rust's cross-compilation capabilities or the [cross](https://github.com/cross-rs/cross) tool:
+
+```bash
+# Install cross
+cargo install cross --git https://github.com/cross-rs/cross
+
+# Build for ARM64 Linux
+cross build --release --target aarch64-unknown-linux-gnu
+
+# Build for ARMv7 Linux
+cross build --release --target armv7-unknown-linux-gnueabihf
+```
+
+See the `Cross.toml` file in the repository root for cross-compilation configuration.
+
+## CI/CD
+
+This project uses GitHub Actions for automated building and testing across multiple platforms.
+
+### Supported Platforms
+
+The CI pipeline builds binaries for the following platforms:
+
+| Platform | Architecture | Artifact Name |
+|----------|--------------|---------------|
+| Linux | x86_64 (AMD64) | `randd-x86_64-unknown-linux-gnu.tar.gz` |
+| Linux | aarch64 (ARM64) | `randd-aarch64-unknown-linux-gnu.tar.gz` |
+| Linux | armv7 (ARM 32-bit) | `randd-armv7-unknown-linux-gnueabihf.tar.gz` |
+| Linux | x86_64-musl | `randd-x86_64-unknown-linux-musl.tar.gz` |
+| Linux | aarch64-musl | `randd-aarch64-unknown-linux-musl.tar.gz` |
+| macOS | x86_64 (Intel) | `randd-x86_64-apple-darwin.tar.gz` |
+| macOS | aarch64 (Apple Silicon) | `randd-aarch64-apple-darwin.tar.gz` |
+| Windows | x86_64 (AMD64) | `randd-x86_64-pc-windows-msvc.zip` |
+
+### Workflow Triggers
+
+The CI/CD pipeline runs on:
+- **Push** to `master` or `main` branches
+- **Pull Requests** to `master` or `main` branches  
+- **Releases** (automatically creates GitHub release artifacts)
+
+### Build Process
+
+For each platform, the pipeline:
+1. Installs the appropriate Rust toolchain
+2. Uses `cross` for cross-platform builds (when needed)
+3. Builds the optimized release binary
+4. Strips the binary to reduce size
+5. Creates compressed archives (`.tar.gz` for Linux/macOS, `.zip` for Windows)
+6. Generates SHA256 checksums for verification
+7. Uploads artifacts as GitHub Actions artifacts
+8. On release, uploads to the GitHub Release
+
+### Artifacts
+
+All builds include:
+- The compiled binary for the target platform
+- A compressed archive (tarball or zip)
+- SHA256 checksum for verification
+
+### Local Testing with Cross
+
+Before pushing changes, you can test cross-compilation locally using `cross`:
+
+```bash
+# Install cross
+cargo install cross --git https://github.com/cross-rs/cross
+
+# Test build for a specific target
+cross build --release --target aarch64-unknown-linux-gnu
+
+# Test with cross
+cross test --target aarch64-unknown-linux-gnu
+```
+
+## Downloading Pre-built Binaries
+
+Pre-built binaries are available on the [Releases](../../releases) page. Choose the appropriate package for your platform:
+
+### Example: Installing on Linux
+
+```bash
+# Download
+wget https://github.com/OWNER/randd/releases/latest/download/randd-x86_64-unknown-linux-gnu.tar.gz
+
+# Verify checksums
+wget https://github.com/OWNER/randd/releases/latest/download/randd-x86_64-unknown-linux-gnu.tar.gz.sha256
+sha256sum -c randd-x86_64-unknown-linux-gnu.tar.gz.sha256
+
+# Extract
+tar -xzf randd-x86_64-unknown-linux-gnu.tar.gz
+
+# Install
+sudo mv randd /usr/local/bin/
+randd --version
+```
+
 ## Command-Line Options
 
 ```
