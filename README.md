@@ -268,12 +268,22 @@ cross test --target aarch64-unknown-linux-gnu
 
 ## Downloading Pre-built Binaries
 
-Pre-built binaries are available on the [Releases](../../releases) page. Choose the appropriate package for your platform:
+### Nightly Builds
+
+The latest builds from the master branch are available via [nightly.link](https://nightly.link/cofob/randd/workflows/build/master). These are automatically generated on every push to the master branch and contain the most recent changes.
+
+**[Get nightly builds](https://nightly.link/cofob/randd/workflows/build/master)**
+
+The nightly builds include artifacts for all supported platforms (Linux, macOS, Windows) with SHA256 checksums for verification.
+
+### Official Releases
+
+Stable releases are available on the [Releases](../../releases) page. Each release includes pre-built binaries for all supported platforms.
 
 ### Example: Installing on Linux
 
 ```bash
-# Download
+# Download from latest release
 wget https://github.com/OWNER/randd/releases/latest/download/randd-x86_64-unknown-linux-gnu.tar.gz
 
 # Verify checksums
