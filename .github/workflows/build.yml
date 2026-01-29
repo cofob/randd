@@ -184,7 +184,7 @@ jobs:
         shell: pwsh
         run: |
           cd target\x86_64-pc-windows-msvc\release
-          Compress-Archive -Path randd.exe -DestinationPath randd-x86_64-pc-windows-msvc.zip
+          Compress-Archive -Path randd.exe -DestinationPath randd-x86_64-pc-windows-msvc.zip -Force
           $hash = Get-FileHash randd-x86_64-pc-windows-msvc.zip -Algorithm SHA256
           $hash.Hash.ToLower() | Out-File -Encoding UTF8 randd-x86_64-pc-windows-msvc.zip.sha256
 
